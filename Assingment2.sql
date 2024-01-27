@@ -107,22 +107,22 @@ LEFT JOIN order1 ON customer.salesman_id=order1.salesman_id
 
 --14).
 
-SELECT
+select
 salesman.name,customer.cust_name,customer.city,customer.grade,order1.ord_no,order1.ord_date,order1.purch_amt
 FROM
 salesman
 LEFT JOIN customer ON salesman.salesman_id=customer.salesman_id
-LEFT JOIN order1 ON customer.salesman_id=order1.salesman_id
+LEFT JOIN order1 ON customer.customer_id=order1.customer_id
 WHERE customer.grade IS NOT NULL AND order1.purch_amt >= 2000
 
 --15).
 
-SELECT
+select
 salesman.name,customer.cust_name,customer.city,customer.grade,order1.ord_no,order1.ord_date,order1.purch_amt
 FROM
 salesman
 LEFT JOIN customer ON salesman.salesman_id=customer.salesman_id
-LEFT JOIN order1 ON customer.salesman_id=order1.salesman_id
+LEFT JOIN order1 ON customer.customer_id=order1.customer_id
 WHERE customer.grade IS NOT NULL AND order1.purch_amt >= 2000
 
 --16)
@@ -139,14 +139,14 @@ WHERE customer.grade IS NOT NULL
 
 SELECT * FROM
 salesman
-LEFT JOIN customer ON salesman.salesman_id=customer.salesman_id
+CROSS JOIN customer 
 
 --18).
 
 SELECT * FROM
 salesman
 CROSS JOIN customer
-WHERE salesman.city=customer.city
+WHERE salesman.city IS NOT NULL
 
 --19).
 
@@ -161,7 +161,8 @@ AND customer.grade IS NULL
 SELECT * FROM
 salesman
 CROSS JOIN customer
-WHERE salesman.city<>customer.city
+WHERE salesman.city IS NOT NULL
+AND salesman.city<>customer.city
 AND customer.grade IS NOT NULL
 
 

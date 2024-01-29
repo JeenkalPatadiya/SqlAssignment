@@ -116,101 +116,53 @@
 	--EXEC [dbo].[TOP_TEN_EXPENSIVE_PRRODUCT]
 
 	 set identity_insert "Orders" on
---6).write a SQL query to Create Stored procedure in the Northwind database to insert Customer Order Details 
-		CREATE OR ALTER PROCEDURE [dbo].[INSERT_CUSTOMER_ORDER_DETAILS]
-		@OrderID INT,
-		@CustomerID nchar(5),
-		@EmployeeID INT,
-		@OrderDate date,
-		@RequiredDate date,
-		@ShippedDate date,
-		@ShipVia INT,
-		@Freight money,
-		@ShipName nvarchar(40),
-		@ShipAddress nvarchar(60),
-		@ShipCity nvarchar(15),
-		@ShipRegion nvarchar(10),
-		@ShipPostalCode nvarchar(10),
-		@ShipCountry nvarchar(15)
-		AS
-		BEGIN
-		INSERT INTO [dbo].[Orders]
-		(
-		 OrderID,
-		 CustomerID,
-		 EmployeeID,
-		 OrderDate,
-		 RequiredDate,
-		 ShippedDate,
-		 ShipVia,
-		 Freight,
-		 ShipName,
-		 ShipAddress,
-		 ShipCity,
-		 ShipRegion,
-		 ShipPostalCode,
-		 ShipCountry
-		 )
-		 VALUES
-		 (
-		 @OrderID,
-		 @CustomerID,
-		 @EmployeeID,
-		 @OrderDate,
-		 @RequiredDate,
-		 @ShippedDate,
-		 @ShipVia,
-		 @Freight,
-		 @ShipName,
-		 @ShipAddress,
-		 @ShipCity,
-		 @ShipRegion,
-		 @ShipPostalCode,
-		 @ShipCountry
-		 )
-	
-		 END
 
-		 EXEC [dbo].[INSERT_CUSTOMER_ORDER_DETAILS] @OrderID=11086,@CustomerID='ALFKI',@EmployeeID=1,@OrderDate='5/6/1998',@RequiredDate='6/3/1998',@ShippedDate=NULL,@ShipVia='2',@Freight='8000.53',@ShipName='Rattlesnake Canyon Grocery',@ShipAddress='N 2817 Milton Dr.',@ShipCity='Albuquerque',@ShipRegion='NM',@ShipPostalCode='N87110',@ShipCountry='NUSA'
-		 --DELETE from Orders where OrderID=11079
+
+--6).write a SQL query to Create Stored procedure in the Northwind database to insert Customer Order Details 
+		CREATE OR ALTER PROCEDURE [dbo].[Insert_On_Order_details]
+		@OrderID int,
+		@ProductID int,
+		@UnitPrice money,
+		@Quantity smallint,
+		@Discount real
+		AS BEGIN
+		INSERT INTO [dbo].[Order Details]
+		(
+			OrderID,
+			ProductID,
+			UnitPrice,
+			Quantity,
+			Discount
+		)
+		VALUES
+		(
+			@OrderID,
+			@ProductID,
+			@UnitPrice,
+			@Quantity,
+			@Discount
+		)
+		END
+
+	--EXEC  [dbo].[Insert_On_Order_details] @OrderID=11081,@ProductID=11,@UnitPrice=22,@Quantity=5,@Discount=0.11
+
 
 --7)write a SQL query to Create Stored procedure in the Northwind database to update Customer Order Details
 	
-		CREATE OR ALTER PROCEDURE [dbo].[UPDATE_CUSTOMER_ORDER_DETAILS]
-		@OrderID INT,
-		@CustomerID nchar(5),
-		@EmployeeID INT,
-		@OrderDate date,
-		@RequiredDate date,
-		@ShippedDate date,
-		@ShipVia INT,
-		@Freight money,
-		@ShipName nvarchar(40),
-		@ShipAddress nvarchar(60),
-		@ShipCity nvarchar(15),
-		@ShipRegion nvarchar(10),
-		@ShipPostalCode nvarchar(10),
-		@ShipCountry nvarchar(15)
-		AS
-		BEGIN
-		UPDATE  [dbo].[Orders]
-		SET
-		EmployeeID = @EmployeeID,
-		OrderDate = @OrderDate,
-		RequiredDate = @RequiredDate,
-		ShippedDate = @ShippedDate,
-		ShipVia = @ShipVia,
-		Freight = @Freight,
-		ShipName = @ShipName,
-		ShipAddress = @ShipAddress,
-		ShipCity = @ShipCity,
-		ShipRegion = @ShipRegion,
-		ShipPostalCode = @ShipPostalCode,
-		ShipCountry = @ShipCountry
-		WHERE OrderID=@OrderID AND CustomerID=@CustomerID
-		END
-
-	 		 EXEC [dbo].[UPDATE_CUSTOMER_ORDER_DETAILS] @OrderID=11079,@CustomerID='ALFKI',@EmployeeID=1,@OrderDate='5/6/1998',@RequiredDate='6/3/1998',@ShippedDate=NULL,@ShipVia='2',@Freight='8.53',@ShipName='Rattlesnake Canyon Grocery',@ShipAddress='N 2817 Milton Dr.',@ShipCity='Albuquerque',@ShipRegion='NM',@ShipPostalCode='N87110',@ShipCountry='UK'
-
-	
-	
+	CREATE OR ALTER PROCEDURE [dbo].[Update_on_Order_Details]
+	@OrderID int,
+	@ProductID int,
+	@UnitPrice money,
+	@Quantity smallint,
+	@Discount real
+	AS
+	BEGIN
+	UPDATE [dbo].[Order Details]
+	SET
+	ProductID=@ProductID,
+	UnitPrice=@UnitPrice,
+	Quantity=@Quantity,
+	Discount=@Discount
+	WHERE [dbo].[Order Details].[OrderID]=@OrderID
+	END
+--EXEC  [dbo].[Update_on_Order_Details] @OrderID=11081,@ProductID=11,@UnitPrice=220,@Quantity=55,@Discount=0.11

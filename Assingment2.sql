@@ -58,7 +58,7 @@ INNER JOIN salesman ON customer.salesman_id=salesman.salesman_id
 --8).
 
 SELECT
-customer.cust_name,customer.city,salesman.name,customer.city
+customer.cust_name,customer.city,customer.grade,salesman.name,customer.city
 FROM customer
 INNER JOIN salesman ON customer.salesman_id = salesman.salesman_id
 ORDER BY customer.customer_id
@@ -69,7 +69,7 @@ SELECT
 customer.cust_name,customer.city,customer.grade,salesman.name,salesman.city
 FROM customer
 INNER JOIN salesman ON customer.salesman_id = salesman.salesman_id
-WHERE customer.grade<300
+WHERE customer.grade<300 OR customer.grade IS NULL
 ORDER BY customer.customer_id
 
 --10).
@@ -77,15 +77,17 @@ ORDER BY customer.customer_id
 SELECT
 customer.cust_name,customer.city,order1.ord_no,order1.ord_date,order1.purch_amt
 FROM customer
-RIGHT JOIN order1 ON customer.salesman_id=order1.salesman_id
+RIGHT JOIN order1 ON customer.customer_id=order1.customer_id
+ORDER BY order1.ord_date
 
 --11).
 
 SELECT
-customer.cust_name,customer.city,order1.ord_no,order1.ord_date,order1.purch_amt,salesman.name,salesman.commission
+customer.cust_name,customer.city,order1.ord_no,order1.ord_date,order1.purch_amt,salesman.name AS SalesmanName,salesman.commission
 FROM customer
-LEFT JOIN salesman ON customer.salesman_id = salesman.salesman_id
-LEFT JOIN order1 ON salesman.salesman_id=order1.salesman_id
+LEFT JOIN order1 ON customer.customer_id = order1.customer_id
+LEFT JOIN salesman ON order1.salesman_id=salesman.salesman_id
+order by order1.ord_no
 
 --12).
 
@@ -99,16 +101,17 @@ ORDER BY salesman.name
 --13).
 
 SELECT
-salesman.name,customer.cust_name,customer.city,customer.grade,order1.ord_no,order1.ord_date,order1.purch_amt
+salesman.name AS SalesmanName,customer.cust_name,customer.city,customer.grade,order1.ord_no,order1.ord_date,order1.purch_amt
 FROM
 salesman 
 LEFT JOIN customer ON salesman.salesman_id=customer.salesman_id
-LEFT JOIN order1 ON customer.salesman_id=order1.salesman_id
+LEFT JOIN order1 ON customer.customer_id=order1.customer_id
+
 
 --14).
 
 select
-salesman.name,customer.cust_name,customer.city,customer.grade,order1.ord_no,order1.ord_date,order1.purch_amt
+salesman.name as "SalesmanName",customer.cust_name,customer.city,customer.grade,order1.ord_no,order1.ord_date,order1.purch_amt
 FROM
 salesman
 LEFT JOIN customer ON salesman.salesman_id=customer.salesman_id
